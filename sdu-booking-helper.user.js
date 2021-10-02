@@ -6,8 +6,8 @@
 // @author       Diblo
 // @match        https://mitsdu.sdu.dk/booking/Book.aspx
 // @icon         https://www.sdu.dk/resources/images/sdu/favicon.ico
-// @updateURL    https://raw.githubusercontent.com/Diblo-DevOps/SDU-Booking-Helper/main/main.js
-// @downloadURL  https://raw.githubusercontent.com/Diblo-DevOps/SDU-Booking-Helper/main/main.js
+// @updateURL    https://raw.githubusercontent.com/Diblo-DevOps/SDU-Booking-Helper/main/sdu-booking-helper.user.js
+// @downloadURL  https://raw.githubusercontent.com/Diblo-DevOps/SDU-Booking-Helper/main/sdu-booking-helper.user.js
 // @grant        GM.setValue
 // @grant        GM.getValue
 // @grant        GM_registerMenuCommand
