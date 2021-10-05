@@ -14,4 +14,5 @@ After installing the extension, do the following:
 5. Press the "+" icon (create new script).
 6. Paste the code into TamperMonkey / Greasemonkey.
    ![RawImage](https://github.com/simonkruger10/SDU-Booking-Helper/blob/main/Images/Replace.png)
-
+7. After pasting the code into TamperMonkey, you should now be able to use it on the booking page. Go to https://mitsdu.sdu.dk/booking/Book.aspx. At the bottom of the page, you should be able to spot a user interface.
+The interface is fairly user-friendly, and the actions should be fairly easy to understand. 
