@@ -18,4 +18,4 @@ After installing the extension, do the following:
 The interface is fairly user-friendly, and the actions should be fairly easy to understand. 
 8. In the settings, you can create new teams, add new rooms to the general booking setting, as well as default booking times. 
 The "add" function set the website to match your changes, meaning that the team, the room, the day etc. is added to the website. Using the "book" function books the given room
-   ![UI Settings](https://github.com/simonkruger10/SDU-Booking-Helper/blob/main/Images/Settings.png)
+   ![UI](https://github.com/simonkruger10/SDU-Booking-Helper/blob/main/Images/Settings.png)
