@@ -65,7 +65,7 @@
     }
 
     function parse_ids(ids) {
-        if (typeof ids !== 'string') {
+        if (typeof ids !== 'string' || ids.trim().length === 0) {
             return [];
         }
         return ids.trim().split(/\s*,\s*/).map(String);
@@ -97,7 +97,7 @@
     // Input Panel
     function updateInputPanelValues() {
         byId('AUTOBOOK_TEAMS').innerHTML = '';
-        byId('AUTOBOOK_IDS').placeholder = '';
+        byId('AUTOBOOK_IDS').placeholder = 'Ex. hemad20, simad19';
         try {
             if (AB_TEAMS[0][0].length !== 0) {
                 byId('AUTOBOOK_IDS').placeholder = AB_TEAMS[0][0].join(', ');
@@ -130,7 +130,7 @@
         }
 
         byId('AUTOBOOK_ROOMS').innerHTML = '';
-        byId('AUTOBOOK_ROOM').placeholder = '';
+        byId('AUTOBOOK_ROOM').placeholder = 'Ex. Ø14-100-2b';
         try {
             if (AB_ROOMS[0][0].length !== 0) {
                 byId('AUTOBOOK_ROOM').placeholder = AB_ROOMS[0][0];
@@ -171,12 +171,14 @@
     }
 
     async function add_participants() {
-        let ids = byId("AUTOBOOK_IDS").value;
+        let ids = parse_ids(byId("AUTOBOOK_IDS").value);
         if (ids.length === 0) {
-            ids = byId("AUTOBOOK_IDS").placeholder;
+            try {
+                ids = AB_TEAMS[0][0];
+            } catch (err) {
+            }
         }
 
-        ids = parse_ids(ids);
         for (let i = 0; i < ids.length; i++) {
             byId("ParticipantTB").value = ids[i];
             byId("BodyContent_AddParticipantButton").click();
@@ -194,7 +196,10 @@
     async function add_room() {
         let room = byId("AUTOBOOK_ROOM").value;
         if (room.length === 0) {
-            room = byId("AUTOBOOK_ROOM").placeholder;
+            try {
+                room = AB_ROOMS[0][0];
+            } catch (err) {
+            }
         }
 
         byId("booktypesearchid").click();
@@ -582,15 +587,12 @@
         doc.getElementsByTagName("body")[0].appendChild(new_elm);
 
         // Add default values
-        try {
-            if (Array.isArray(AB_TEAMS[0][0]) === true && AB_TEAMS[0][0].length !== 0) {
-                for (let i = 0; i < AB_TEAMS.length; i++) {
-                    addOptionsRow('AUTOBOOK_SETTINGS_TEAMS', 'Team', 'Description', AB_TEAMS[i][0].join(', '), AB_TEAMS[i][1]);
-                }
-            } else {
-                addOptionsRow('AUTOBOOK_SETTINGS_TEAMS', 'Team', 'Description', '', '', 'Ex. hemad20, simad19', 'Ex. DevOps');
+        if (AB_TEAMS[0] !== undefined && Array.isArray(AB_TEAMS[0][0]) === true && AB_TEAMS[0][0].length !== 0) {
+            for (let i = 0; i < AB_TEAMS.length; i++) {
+                addOptionsRow('AUTOBOOK_SETTINGS_TEAMS', 'Team', 'Description', AB_TEAMS[i][0].join(', '), AB_TEAMS[i][1])
             }
-        } catch (err) {
+        } else {
+            addOptionsRow('AUTOBOOK_SETTINGS_TEAMS', 'Team', 'Description', '', '', 'Ex. hemad20, simad19', 'Ex. DevOps');
         }
 
         if (6 >= AB_DAY_OF_WEEK > 0) {
@@ -611,15 +613,12 @@
             byId('AUTOBOOK_SETTINGS_BOOKING_LENGTH').value = AB_BOOKING_LENGTH;
         }
 
-        try {
-            if (typeof AB_ROOMS[0][0] === 'string' && AB_ROOMS[0][0].length !== 0) {
-                for (let i = 0; i < AB_ROOMS.length; i++) {
-                    addOptionsRow('AUTOBOOK_SETTINGS_ROOMS', 'Room', 'Description', AB_ROOMS[i][0], AB_ROOMS[i][1]);
-                }
-            } else {
-                addOptionsRow('AUTOBOOK_SETTINGS_ROOMS', 'Room', 'Description', '', '', 'Ø14-100-2b', 'Tek - Floor 1 - 6 seats');
+        if (AB_ROOMS[0] !== undefined && typeof AB_ROOMS[0][0] === 'string' && AB_ROOMS[0][0].length !== 0) {
+            for (let i = 0; i < AB_ROOMS.length; i++) {
+                addOptionsRow('AUTOBOOK_SETTINGS_ROOMS', 'Room', 'Description', AB_ROOMS[i][0], AB_ROOMS[i][1]);
             }
-        } catch (err) {
+        } else {
+            addOptionsRow('AUTOBOOK_SETTINGS_ROOMS', 'Room', 'Description', '', '', 'Ex. Ø14-100-2b', 'Tek - Floor 1 - 6 seats');
         }
 
         // Event Listener
