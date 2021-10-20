@@ -428,6 +428,28 @@
         await GM.setValue('booking_length', opt_booking_length);
     }
 
+    function sortByClass(elms) {
+        let elms_by_class = {};
+        for (let i = 0; i < elms.length; i++) {
+            let _class = elms[i].className;
+            if (elms_by_class[_class] === undefined) {
+                elms_by_class[_class] = [];
+            }
+            elms_by_class[_class].push(elms[i]);
+        }
+        return elms_by_class;
+    }
+
+    function update_remove_buttons_availability() {
+        let elms = byId('AF_SET_HOLDER').querySelectorAll('input[class*="_remove"]');
+        for (const [_, _elms] of Object.entries(sortByClass(elms))) {
+            let state = _elms.length <= 1;
+            for (let i = 0; i < _elms.length; i++) {
+                _elms[i].disabled = state;
+            }
+        }
+    }
+
     const uniqId = (() => {
         let i = 0;
         return () => {
@@ -454,6 +476,8 @@
             '       <input type="text" id="' + id + '_DESC_' + uid + '" class="' + id.toLowerCase() + '_desc" placeholder="' + cols.col2.description + '"' + values[1] + '>' +
             '       <input type="button" id="' + id + '_REMOVE_' + uid + '" class="' + id.toLowerCase() + '_remove" value="Remove">' +
             '   </span>';
+
+        update_remove_buttons_availability();
     }
 
     function remove_row(event) {
@@ -463,6 +487,8 @@
 
         let elem = byId(id.replace('REMOVE_', ''));
         elem.parentNode.removeChild(elem);
+
+        update_remove_buttons_availability();
     }
 
     function init_option() {
