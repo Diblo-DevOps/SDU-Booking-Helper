@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SDU Booking Helper
-// @namespace    http://tampermonkey.net/
-// @version      2.0.1
+// @namespace    https://github.com/Diblo-DevOps/SDU-Booking-Helper
+// @version      3.0.0
 // @description  Help script for booking rooms at SDU
 // @author       Diblo
 // @match        https://mitsdu.sdu.dk/booking/Book.aspx
