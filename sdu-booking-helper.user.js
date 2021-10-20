@@ -34,6 +34,27 @@
     let opt_booking_length = await GM.getValue('booking_length', 4);
     let opt_rooms = JSON.parse(await GM.getValue('rooms', '[]'));
 
+    const TEAM_COLS = {
+        'col1': {
+            'label': 'Team',
+            'description': 'Ex. hemad20, simad19',
+        },
+        'col2': {
+            'label': 'Description',
+            'description': 'Ex. DevOps',
+        }
+    };
+    const ROOM_COLS = {
+        'col1': {
+            'label': 'Room',
+            'description': 'Ex. Ø14-100-2b',
+        },
+        'col2': {
+            'label': 'Description',
+            'description': 'Ex. Tek - Floor 1 - 6 seats',
+        }
+    };
+
     const doc = document;
     const byId = (name) => doc.getElementById(name);
     const byClass = (name) => doc.getElementsByClassName(name);
@@ -79,7 +100,7 @@
 
     function update_panel() {
         byId('AF_TEAMS').innerHTML = '';
-        byId('AF_IDS').placeholder = 'Ex. hemad20, simad19';
+        byId('AF_IDS').placeholder = TEAM_COLS.col1.description;
         try {
             if (opt_teams[0][0].length !== 0) {
                 byId('AF_IDS').placeholder = opt_teams[0][0].join(', ');
@@ -111,7 +132,7 @@
         }
 
         byId('AF_ROOMS').innerHTML = '';
-        byId('AF_ROOM').placeholder = 'Ø14-100-2b';
+        byId('AF_ROOM').placeholder = ROOM_COLS.col1.description;
         try {
             if (opt_rooms[0][0].length !== 0) {
                 byId('AF_ROOM').placeholder = opt_rooms[0][0];
@@ -414,25 +435,23 @@
         }
     })();
 
-    function add_row(id, label1, label2, value1 = '', value2 = '', placeholder1 = '', placeholder2 = '') {
-        let att1 = 'value="' + value1 + '"';
-        if (value1 === '') {
-            att1 = 'placeholder="' + placeholder1 + '"';
+    function add_row(id, cols, value1 = '', value2 = '') {
+        let values = [];
+        if (typeof value1 === "string" && value1.trim() !== '') {
+            values[0] = ' value="' + value1.trim() + '"';
         }
-
-        let att2 = 'value="' + value2 + '"';
-        if (value2 === '') {
-            att2 = 'placeholder="' + placeholder2 + '"';
+        if (typeof value2 === "string" && value2.trim() !== '') {
+            values[1] = ' value="' + value2.trim() + '"';
         }
 
         let uid = uniqId();
         let elm = byId(id);
         elm.innerHTML = elm.innerHTML +
             '   <span class="setting_table" id="' + id + '_' + uid + '">' +
-            '       <label for="' + id + '_VAL_' + uid + '">' + label1 + ':</label>' +
-            '       <input type="text" id="' + id + '_VAL_' + uid + '" class="' + id.toLowerCase() + '_val" ' + att1 + '>' +
-            '       <label for="' + id + '_DESC_' + uid + '">' + label2 + ':</label>' +
-            '       <input type="text" id="' + id + '_DESC_' + uid + '" class="' + id.toLowerCase() + '_desc" ' + att2 + '>' +
+            '       <label for="' + id + '_VAL_' + uid + '">' + cols.col1.label + ':</label>' +
+            '       <input type="text" id="' + id + '_VAL_' + uid + '" class="' + id.toLowerCase() + '_val" placeholder="' + cols.col1.description + '"' + values[0] + '>' +
+            '       <label for="' + id + '_DESC_' + uid + '">' + cols.col1.label + ':</label>' +
+            '       <input type="text" id="' + id + '_DESC_' + uid + '" class="' + id.toLowerCase() + '_desc" placeholder="' + cols.col2.description + '"' + values[1] + '>' +
             '       <input type="button" id="' + id + '_REMOVE_' + uid + '" class="' + id.toLowerCase() + '_remove" value="Remove">' +
             '   </span>';
     }
@@ -588,10 +607,10 @@
         // Add values
         if (opt_teams[0] !== undefined && Array.isArray(opt_teams[0][0]) === true && opt_teams[0][0].length !== 0) {
             for (let i = 0; i < opt_teams.length; i++) {
-                add_row('AF_SET_TEAMS', 'Team', 'Description', opt_teams[i][0].join(', '), opt_teams[i][1])
+                add_row('AF_SET_TEAMS', TEAM_COLS, opt_teams[i][0].join(', '), opt_teams[i][1]);
             }
         } else {
-            add_row('AF_SET_TEAMS', 'Team', 'Description', '', '', 'Ex. hemad20, simad19', 'Ex. DevOps');
+            add_row('AF_SET_TEAMS', TEAM_COLS);
         }
 
         if (6 >= opt_day_of_week > 0) {
@@ -614,18 +633,18 @@
 
         if (opt_rooms[0] !== undefined && typeof opt_rooms[0][0] === 'string' && opt_rooms[0][0].length !== 0) {
             for (let i = 0; i < opt_rooms.length; i++) {
-                add_row('AF_SET_ROOMS', 'Room', 'Description', opt_rooms[i][0], opt_rooms[i][1]);
+                add_row('AF_SET_ROOMS', ROOM_COLS, opt_rooms[i][0], opt_rooms[i][1]);
             }
         } else {
-            add_row('AF_SET_ROOMS', 'Room', 'Description', '', '', 'Ex. Ø14-100-2b', 'Tek - Floor 1 - 6 seats');
+            add_row('AF_SET_ROOMS', ROOM_COLS);
         }
 
         // Event Listener
         byId("AF_SET_ADD_TEAM").addEventListener("click", () => {
-            add_row('AF_SET_ADD_TEAM', 'Team', 'Description');
+            add_row('AF_SET_TEAMS', TEAM_COLS);
         });
         byId("AF_SET_ADD_ROOM").addEventListener("click", () => {
-            add_row('AF_SET_ADD_ROOM', 'Room', 'Description');
+            add_row('AF_SET_ROOMS', TEAM_COLS);
         });
         byId("AF_SET_CANCEL").addEventListener("click", close_option);
         byId("AF_SET_SAVE").addEventListener("click", save_and_close_option);
