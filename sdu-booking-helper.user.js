@@ -336,7 +336,7 @@
             '       </span>' +
             '       <span><label>Weeks from now:</label><input type="number" min="0" step="1" id="AF_WEEKS_FROM_NOW" value="0"></span>' +
             '       <span><label>From:</label><input type="text" id="AF_BOOK_TIME"></span>' +
-            '       <span><label>Length:</label><input type="number" min="0.5" max="4" step="0.5" id="AF_BOOKING_LENGTH"></span>' +
+            '       <span><label>Length:</label><input type="number" min="0.5" step="0.5" id="AF_BOOKING_LENGTH"></span>' +
             '       <span>' +
             '           <label>Room:</label>' +
             '           <input type="text" list="AF_ROOMS" id="AF_ROOM">' +
@@ -620,7 +620,7 @@
             '           <option value="30">30</option>' +
             '       </select>' +
             '   </span>' +
-            '   <label>Default Booking Length:</label><input type="number" min="0.5" max="4" step="0.5" id="AF_SET_BOOKING_LENGTH">' +
+            '   <label>Default Booking Length:</label><input type="number" min="0.5" step="0.5" id="AF_SET_BOOKING_LENGTH">' +
             '</span>' +
             '   <span id="AF_SET_BUTTONS">' +
             '       <input type="button" id="AF_SET_CANCEL" value="Cancel">' +
