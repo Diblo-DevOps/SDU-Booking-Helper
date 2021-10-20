@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SDU Booking Helper
 // @namespace    https://github.com/Diblo-DevOps/SDU-Booking-Helper
-// @version      3.0.0
+// @version      4.0.0
 // @description  Help script for booking rooms at SDU
 // @author       Diblo
 // @match        https://mitsdu.sdu.dk/booking/Book.aspx
@@ -10,6 +10,7 @@
 // @downloadURL  https://raw.githubusercontent.com/Diblo-DevOps/SDU-Booking-Helper/main/sdu-booking-helper.user.js
 // @grant        GM.setValue
 // @grant        GM.getValue
+// @grant        GM.deleteValue
 // @grant        GM_registerMenuCommand
 // ==/UserScript==
 
@@ -26,6 +27,20 @@
 
 (async function () {
     "use strict";
+
+    // AB_TEAMS, AB_DAY_OF_WEEK, AB_BOOK_TIME, AB_BOOKING_LENGTH and AB_ROOMS is obsolete
+    if (await GM.getValue('AB_TEAMS', -1) !== -1) {
+        await GM.setValue('teams', await GM.getValue('AB_TEAMS', '[]'));
+        await GM.deleteValue('AB_TEAMS');
+        await GM.setValue('day_of_week', await GM.getValue('AB_DAY_OF_WEEK', 1));
+        await GM.deleteValue('AB_DAY_OF_WEEK');
+        await GM.setValue('book_time', await GM.getValue('AB_BOOK_TIME', '8:00'));
+        await GM.deleteValue('AB_BOOK_TIME');
+        await GM.setValue('booking_length', await GM.getValue('AB_BOOKING_LENGTH', 4));
+        await GM.deleteValue('AB_BOOKING_LENGTH');
+        await GM.setValue('rooms', await GM.getValue('AB_ROOMS', '[]'));
+        await GM.deleteValue('AB_ROOMS');
+    }
 
     // Global vars
     let opt_teams = JSON.parse(await GM.getValue('teams', '[]'));
