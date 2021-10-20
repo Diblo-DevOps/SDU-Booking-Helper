@@ -1,0 +1,10 @@
+.idea*
+
+# Thumbnail cache files
+._*
+Thumbs.db
+
+# Folder view configuration files
+.DS_Store
+Desktop.ini
+
