@@ -98,6 +98,20 @@
         return ids.trim().split(/\s*,\s*/).map(String);
     }
 
+    function roundHalfEven(num) {
+        let _integer = num * 10 % 10;
+
+        if (_integer > 5) {
+            return toNumber((num).toFixed());
+        }
+
+        if (_integer < 5 && _integer > 0) {
+            return toNumber(((num * 10 + 5 - _integer) / 10).toFixed(1));
+        }
+
+        return num;
+    }
+
 
     // Input Panel
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -140,11 +154,7 @@
             byId('AF_BOOK_TIME').value = '8:00';
         }
 
-        if (4 >= opt_booking_length >= 0.5) {
-            byId('AF_BOOKING_LENGTH').value = opt_booking_length;
-        } else {
-            byId('AF_BOOK_TIME').value = 4;
-        }
+        byId('AF_BOOKING_LENGTH').value = opt_booking_length;
 
         byId('AF_ROOMS').innerHTML = '';
         byId('AF_ROOM').placeholder = ROOM_COLS.col1.description;
@@ -181,10 +191,14 @@
         byId("datepickerinput").value = pad(book_dt.getDate(), 2) + "-" + pad(book_dt.getMonth() + 1, 2) + "-" + book_dt.getFullYear();
 
         // Set FromTime and ToTime value
-        let hours = book_dt.getHours();
-        let minutes = pad(book_dt.getMinutes(), 2);
-        byId("FromTime").value = pad(hours, 2) + ":" + minutes;
-        byId("ToTime").value = pad(hours + toNumber(byId("AF_BOOKING_LENGTH").value, 4), 2) + ":" + minutes;
+        byId("FromTime").value = pad(book_dt.getHours(), 2) + ":" + pad(book_dt.getMinutes(), 2);
+
+        let booking_length = roundHalfEven(toNumber(byId("AF_BOOKING_LENGTH").value, 4));
+        if (booking_length < 0.5) {
+            booking_length = 0.5;
+        }
+        book_dt.setMinutes(book_dt.getMinutes() + 60 * booking_length);
+        byId("ToTime").value = pad(book_dt.getHours(), 2) + ":" + pad(book_dt.getMinutes(), 2);
     }
 
     async function fill_in_participants() {
@@ -439,7 +453,10 @@
         opt_book_time = pad(hour) + ':' + pad(min);
         await GM.setValue('book_time', opt_book_time);
 
-        opt_booking_length = toNumber(byId('AF_SET_BOOKING_LENGTH').value, 4);
+        opt_booking_length = roundHalfEven(toNumber(byId('AF_SET_BOOKING_LENGTH').value, 4));
+        if (opt_booking_length < 0.5) {
+            opt_booking_length = 0.5;
+        }
         await GM.setValue('booking_length', opt_booking_length);
     }
 
@@ -668,9 +685,7 @@
             }
         }
 
-        if (4 >= opt_booking_length >= 0.5) {
-            byId('AF_SET_BOOKING_LENGTH').value = opt_booking_length;
-        }
+        byId('AF_SET_BOOKING_LENGTH').value = opt_booking_length;
 
         if (opt_rooms[0] !== undefined && typeof opt_rooms[0][0] === 'string' && opt_rooms[0][0].length !== 0) {
             for (let i = 0; i < opt_rooms.length; i++) {
