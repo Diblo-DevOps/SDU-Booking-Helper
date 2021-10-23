@@ -175,10 +175,12 @@
         // Set booking time
         let bookTime = new Date(Date.parse("01 Jan 1970 " + pad(toNumber(book_time[0], 0)) + ":" + pad(toNumber(book_time[1], 0))));
         book_dt.setHours(bookTime.getHours());
-        if (30 >= bookTime.getMinutes() > 0) {
-            book_dt.setMinutes(30);
-        } else {
+        if (bookTime.getMinutes() === 0) {
             book_dt.setMinutes(0);
+        } else if (bookTime.getMinutes() > 30) {
+            book_dt.setMinutes(60);
+        } else {
+            book_dt.setMinutes(30);
         }
 
         // Set booking date
