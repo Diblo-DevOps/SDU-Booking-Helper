@@ -142,10 +142,10 @@
         for (let i = 0; i < elms.length; i++) {
             byId('AF_DAY_OF_WEEK').options[i].selected = false;
         }
-        if (6 >= opt_day_of_week > 0) {
-            byId('AF_DAY_OF_WEEK').options[opt_day_of_week - 1].selected = true;
-        } else if (opt_day_of_week === 0) {
+        if (opt_day_of_week === 0) {
             byId('AF_DAY_OF_WEEK').options[6].selected = true;
+        } else if (opt_day_of_week < 7) {
+            byId('AF_DAY_OF_WEEK').options[opt_day_of_week - 1].selected = true;
         }
 
         if (opt_book_time.length > 0) {
@@ -671,10 +671,10 @@
             add_row('AF_SET_TEAMS', TEAM_COLS);
         }
 
-        if (6 >= opt_day_of_week > 0) {
-            byId('AF_SET_DAY_OF_WEEK').options[opt_day_of_week - 1].selected = true;
-        } else if (opt_day_of_week === 0) {
+        if (opt_day_of_week === 0) {
             byId('AF_SET_DAY_OF_WEEK').options[6].selected = true;
+        } else if (opt_day_of_week < 7) {
+            byId('AF_SET_DAY_OF_WEEK').options[opt_day_of_week - 1].selected = true;
         }
 
         if (typeof opt_book_time === 'string' && opt_book_time.length > 0) {
