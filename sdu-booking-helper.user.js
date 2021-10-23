@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SDU Booking Helper
 // @namespace    https://github.com/Diblo-DevOps/SDU-Booking-Helper
-// @version      4.0.0
+// @version      4.0.1
 // @description  Help script for booking rooms at SDU
 // @author       Diblo
 // @match        https://mitsdu.sdu.dk/booking/Book.aspx
@@ -685,7 +685,7 @@
             add_row('AF_SET_TEAMS', TEAM_COLS);
         });
         byId("AF_SET_ADD_ROOM").addEventListener("click", () => {
-            add_row('AF_SET_ROOMS', TEAM_COLS);
+            add_row('AF_SET_ROOMS', ROOM_COLS);
         });
         byId("AF_SET_CANCEL").addEventListener("click", close_option);
         byId("AF_SET_SAVE").addEventListener("click", save_and_close_option);
