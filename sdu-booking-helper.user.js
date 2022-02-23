@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SDU Booking Helper
 // @namespace    https://github.com/Diblo-DevOps/SDU-Booking-Helper
-// @version      4.0.1
+// @version      4.0.2
 // @description  Help script for booking rooms at SDU
 // @author       Diblo
 // @match        https://mitsdu.sdu.dk/booking/Book.aspx
@@ -452,7 +452,7 @@
 
         let hour = toNumber(byId('AF_SET_BOOK_TIME_HOUR').value, 8);
         let min = toNumber(byId('AF_SET_BOOK_TIME_MIN').value, 0);
-        opt_book_time = pad(hour) + ':' + pad(min);
+        opt_book_time = pad(hour, 2) + ':' + pad(min, 2);
         await GM.setValue('book_time', opt_book_time);
 
         opt_booking_length = roundHalfEven(toNumber(byId('AF_SET_BOOKING_LENGTH').value, 4));
